@@ -15,6 +15,7 @@ Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		AzureSample\AzureSample\AzureSample.projitems*{1236f060-7d89-4379-b02a-e1abf622f991}*SharedItemsImports = 4
 		AzureSample\AzureSample\AzureSample.projitems*{77658acb-ae5e-4795-bd76-86d928367315}*SharedItemsImports = 13
+		AzureSample\AzureSample\AzureSample.projitems*{86a64e27-80aa-4317-ae51-0f3775da707a}*SharedItemsImports = 4
 		AzureSample\AzureSample\AzureSample.projitems*{ffcbe865-ffcd-4b8d-89bb-de6d73c4b176}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
