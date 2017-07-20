@@ -17,14 +17,9 @@ namespace AzureSample.Views
 			InitializeComponent ();
 		}
 
-        private void MobileClicked(object sender, EventArgs e)
-        {
-
-        }
-
         private void PushClicked(object sender, EventArgs e)
         {
-
+            Navigation.PushAsync(new TodoList());
         }
 
         private void CognitiveClicked(object sender, EventArgs e)

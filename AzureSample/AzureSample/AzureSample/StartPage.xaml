@@ -1,10 +1,9 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage x:Class="AzureSample.Views.StartPage"
              xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              Title="Azure Sample">
     <StackLayout>
-        <Button Clicked="MobileClicked" Text="Mobile Apps" />
         <Button Clicked="PushClicked" Text="Push Notification" />
         <Button Clicked="CognitiveClicked" Text="Cognitive Services" />
     </StackLayout>
