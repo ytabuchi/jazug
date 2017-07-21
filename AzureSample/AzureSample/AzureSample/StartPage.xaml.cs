@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace AzureSample.Views
+namespace AzureSample
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class StartPage : ContentPage
@@ -24,7 +24,7 @@ namespace AzureSample.Views
 
         private void CognitiveClicked(object sender, EventArgs e)
         {
-
+            Navigation.PushAsync(new Cognitive());
         }
 
     }

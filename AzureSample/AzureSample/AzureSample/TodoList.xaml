@@ -21,11 +21,8 @@
             x:Name="syncIndicator" />
         <StackLayout
             Grid.Row="0"
-            BackgroundColor="#5ABAFF"
-            Padding="10,30,10,5">
-            <Label
-                TextColor="#555555"
-                Text="Azure App Service" />
+            BackgroundColor="#3498DB"
+            Padding="8">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
@@ -42,6 +39,8 @@
                     HorizontalOptions="StartAndExpand">
                     <Button
                         Text="+"
+                        TextColor="White"
+                        Margin="8,0"
                         MinimumHeightRequest="30"
                         Clicked="OnAdd" />
                 </StackLayout>

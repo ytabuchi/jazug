@@ -7,6 +7,8 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Text;
+using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace AzureSample
 {
@@ -29,7 +31,19 @@ namespace AzureSample
 					var response = await client.PostAsync(sendUri, content);
 					response.EnsureSuccessStatusCode();
 
-                    return "success";
+                    var contentString = await response.Content.ReadAsStringAsync();
+                    var ocrResultString = JsonConvert.DeserializeObject<OcrResult>(contentString);
+
+                    var sb = new StringBuilder();
+                    foreach (var line in ocrResultString.regions[0].lines)
+                    {
+                        foreach (var word in line.words)
+                        {
+                            sb.Append(word.text);
+                        }
+                    }
+
+                    return sb.ToString();
 				}
                 catch (Exception ex)
                 {
@@ -74,8 +88,8 @@ namespace AzureSample
                 string contentString = await response.Content.ReadAsStringAsync();
 
                 // Display the JSON response.
-                Console.WriteLine("\nResponse:\n");
-                Console.WriteLine(JsonPrettyPrint(contentString));
+                //Console.WriteLine("\nResponse:\n");
+                //Console.WriteLine(JsonPrettyPrint(contentString));
             }
         }
 
@@ -160,7 +174,30 @@ namespace AzureSample
             return sb.ToString().Trim();
         }
     }
+
+    public class OcrResult
+    {
+		public class Word
+		{
+			public string boundingBox { get; set; }
+			public string text { get; set; }
+		}
+
+		public class Line
+		{
+			public string boundingBox { get; set; }
+			public List<Word> words { get; set; }
+		}
+
+		public class Region
+		{
+			public string boundingBox { get; set; }
+			public List<Line> lines { get; set; }
+		}
+
+		public string language { get; set; }
+		public double textAngle { get; set; }
+		public string orientation { get; set; }
+		public List<Region> regions { get; set; }
+    }
 }
-
-
-//https://southeastasia.api.cognitive.microsoft.com/vision/v1.0

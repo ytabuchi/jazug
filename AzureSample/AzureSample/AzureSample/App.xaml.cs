@@ -16,7 +16,7 @@ namespace AzureSample
         {
             InitializeComponent();
 
-            var navi = new NavigationPage(new Views.StartPage());
+            var navi = new NavigationPage(new StartPage());
             navi.BarBackgroundColor = Color.FromHex("#3498DB");
             navi.BarTextColor = Color.White;
             MainPage = navi;

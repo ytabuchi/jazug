@@ -27,6 +27,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Secrets.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Ocr.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Secrets_sample.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cognitive.xaml.cs">
+      <DependentUpon>Cognitive.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)App.xaml">
@@ -38,6 +41,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)TodoList.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Cognitive.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>
