@@ -6,6 +6,7 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using Gcm.Client;
+using Plugin.Permissions;
 
 namespace AzureSample.Droid
 {
@@ -53,6 +54,11 @@ namespace AzureSample.Droid
                 CreateAndShowDialog(e.Message, "Error");
             }
         }
+
+		public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
+		{
+			PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+		}
 
         private void CreateAndShowDialog(String message, String title)
         {
