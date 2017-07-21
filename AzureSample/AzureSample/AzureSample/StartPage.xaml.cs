@@ -24,7 +24,8 @@ namespace AzureSample.Views
 
         private void CognitiveClicked(object sender, EventArgs e)
         {
-            Navigation.PushAsync(new Cognitive());
+
         }
+
     }
 }

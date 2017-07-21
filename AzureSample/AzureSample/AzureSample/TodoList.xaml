@@ -3,7 +3,7 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="AzureSample.TodoList"
-    Title="Push Notification">
+    Title="Azure Todo">
     <Grid
         RowSpacing="0">
         <Grid.RowDefinitions>
@@ -21,8 +21,11 @@
             x:Name="syncIndicator" />
         <StackLayout
             Grid.Row="0"
-            BackgroundColor="#3498DB"
-            Padding="8">
+            BackgroundColor="#5ABAFF"
+            Padding="10,30,10,5">
+            <Label
+                TextColor="#555555"
+                Text="Azure App Service" />
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
@@ -38,9 +41,7 @@
                     Orientation="Horizontal"
                     HorizontalOptions="StartAndExpand">
                     <Button
-                        TextColor="White"
                         Text="+"
-                        Margin="8,0"
                         MinimumHeightRequest="30"
                         Clicked="OnAdd" />
                 </StackLayout>
