@@ -26,6 +26,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Translate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Secrets.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Ocr.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Secrets_sample.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)App.xaml">
