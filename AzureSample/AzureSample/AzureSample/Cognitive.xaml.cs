@@ -16,7 +16,7 @@ namespace AzureSample
         {
 			image.Source = ImageSource.FromUri(new Uri(uriText.Text));
 			
-            var resJa = await Ocr.DoOcrAsync(uriText.Text);
+            var resJa = await Ocr.DoOcrUriAsync(uriText.Text);
             resJaLabel.Text = resJa;
 
             var resEn = await Translate.TranslateTextAsync(resJa);

@@ -1,4 +1,5 @@
 ﻿/* This class get a result from Translator API
+ * Tryout page:
  * http://docs.microsofttranslator.com/text-translate.html#!/default/get_Translate
  */
 using System;
@@ -20,9 +21,12 @@ namespace AzureSample
 			{
 				var sendUri = $"{uriBase}?appid={token}&text={rowText}&from=ja&to=en&category=generalnn";
 				var stream = await client.GetStreamAsync(sendUri);
-				var doc = XElement.Load(stream);
-
-				return doc.Value;
+                if (stream != null)
+                {
+					var doc = XElement.Load(stream);
+					return doc.Value;
+                }
+                return "couldn't translate.";
 			}
 		}
     }

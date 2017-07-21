@@ -23,22 +23,22 @@ using Microsoft.WindowsAzure.MobileServices.Sync;
 
 namespace AzureSample
 {
-	public partial class TodoItemManager
-	{
-		static TodoItemManager defaultInstance = new TodoItemManager();
-		MobileServiceClient client;
+    public partial class TodoItemManager
+    {
+        static TodoItemManager defaultInstance = new TodoItemManager();
+        MobileServiceClient client;
 
 #if OFFLINE_SYNC_ENABLED
         IMobileServiceSyncTable<TodoItem> todoTable;
 #else
-		IMobileServiceTable<TodoItem> todoTable;
+        IMobileServiceTable<TodoItem> todoTable;
 #endif
 
-		const string offlineDbPath = @"localstore.db";
+        const string offlineDbPath = @"localstore.db";
 
-		private TodoItemManager()
-		{
-			this.client = new MobileServiceClient(Constants.ApplicationURL);
+        private TodoItemManager()
+        {
+            this.client = new MobileServiceClient(Constants.ApplicationURL);
 
 #if OFFLINE_SYNC_ENABLED
             var store = new MobileServiceSQLiteStore(offlineDbPath);
@@ -49,70 +49,64 @@ namespace AzureSample
 
             this.todoTable = client.GetSyncTable<TodoItem>();
 #else
-			this.todoTable = client.GetTable<TodoItem>();
+            this.todoTable = client.GetTable<TodoItem>();
 #endif
-		}
+        }
 
-		public static TodoItemManager DefaultManager
-		{
-			get
-			{
-				return defaultInstance;
-			}
-			private set
-			{
-				defaultInstance = value;
-			}
-		}
+        public static TodoItemManager DefaultManager
+        {
+            get { return defaultInstance; }
+            private set { defaultInstance = value; }
+        }
 
-		public MobileServiceClient CurrentClient
-		{
-			get { return client; }
-		}
+        public MobileServiceClient CurrentClient
+        {
+            get { return client; }
+        }
 
-		public bool IsOfflineEnabled
-		{
-			get { return todoTable is Microsoft.WindowsAzure.MobileServices.Sync.IMobileServiceSyncTable<TodoItem>; }
-		}
+        public bool IsOfflineEnabled
+        {
+            get { return todoTable is Microsoft.WindowsAzure.MobileServices.Sync.IMobileServiceSyncTable<TodoItem>; }
+        }
 
-		public async Task<ObservableCollection<TodoItem>> GetTodoItemsAsync(bool syncItems = false)
-		{
-			try
-			{
+        public async Task<ObservableCollection<TodoItem>> GetTodoItemsAsync(bool syncItems = false)
+        {
+            try
+            {
 #if OFFLINE_SYNC_ENABLED
                 if (syncItems)
                 {
                     await this.SyncAsync();
                 }
 #endif
-				IEnumerable<TodoItem> items = await todoTable
-					.Where(todoItem => !todoItem.Done)
-					.ToEnumerableAsync();
+                IEnumerable<TodoItem> items = await todoTable
+                    .Where(todoItem => !todoItem.Done)
+                    .ToEnumerableAsync();
 
-				return new ObservableCollection<TodoItem>(items);
-			}
-			catch (MobileServiceInvalidOperationException msioe)
-			{
-				Debug.WriteLine(@"Invalid sync operation: {0}", msioe.Message);
-			}
-			catch (Exception e)
-			{
-				Debug.WriteLine(@"Sync error: {0}", e.Message);
-			}
-			return null;
-		}
+                return new ObservableCollection<TodoItem>(items);
+            }
+            catch (MobileServiceInvalidOperationException msioe)
+            {
+                Debug.WriteLine(@"Invalid sync operation: {0}", msioe.Message);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(@"Sync error: {0}", e.Message);
+            }
+            return null;
+        }
 
-		public async Task SaveTaskAsync(TodoItem item)
-		{
-			if (item.Id == null)
-			{
-				await todoTable.InsertAsync(item);
-			}
-			else
-			{
-				await todoTable.UpdateAsync(item);
-			}
-		}
+        public async Task SaveTaskAsync(TodoItem item)
+        {
+            if (item.Id == null)
+            {
+                await todoTable.InsertAsync(item);
+            }
+            else
+            {
+                await todoTable.UpdateAsync(item);
+            }
+        }
 
 #if OFFLINE_SYNC_ENABLED
         public async Task SyncAsync()
@@ -159,5 +153,5 @@ namespace AzureSample
             }
         }
 #endif
-	}
+    }
 }

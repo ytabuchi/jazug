@@ -1,5 +1,7 @@
 ﻿/* This class get a result from Computer Vision API
  * https://docs.microsoft.com/ja-jp/azure/cognitive-services/computer-vision/quickstarts/csharp#optical-character-recognition-ocr-with-computer-vision-api-using-ca-nameocr-a
+ * Tryout page:
+ * https://westus.dev.cognitive.microsoft.com/docs/services/56f91f2d778daf23d8ec6739/operations/56f91f2e778daf14a499e1fa
  */
 using System;
 using System.IO;
@@ -16,21 +18,23 @@ namespace AzureSample
     {
         const string uriBase = "https://southeastasia.api.cognitive.microsoft.com/vision/v1.0/ocr";
 
-        public static async Task<string> DoOcrAsync(string imageUri)
+        public static async Task<string> DoOcrUriAsync(string imageUri)
         {
             using (var client = new HttpClient())
             {
                 try
                 {
-					// ヘッダーでAPIキーを付与
+					// ヘッダーでAPIキーを付与して日本語でComputer Vision APIに投げる
 					client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", Secrets.ComputerVisionApiKey);
 					var sendUri = $"{uriBase}?language=ja&detectOrientation=true";
+
+                    // 画像URLをJSONコンテントとしてPOSTする
 					var content = new StringContent("{\"url\":\"" + imageUri + "\"}");
 					content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-
 					var response = await client.PostAsync(sendUri, content);
 					response.EnsureSuccessStatusCode();
 
+                    // 取得したJSONから読み取り結果をリターンする
                     var contentString = await response.Content.ReadAsStringAsync();
                     var ocrResultString = JsonConvert.DeserializeObject<OcrResult>(contentString);
 
@@ -49,7 +53,7 @@ namespace AzureSample
                 {
                     System.Diagnostics.Debug.WriteLine(ex.InnerException);
                 }
-                return "";
+                return "couldn't recognize.";
 			}
         }
 
@@ -57,7 +61,7 @@ namespace AzureSample
         /// Gets the text visible in the specified image file by using the Computer Vision REST API.
         /// </summary>
         /// <param name="imageFilePath">The image file.</param>
-        static async void MakeOCRRequest(string imageFilePath)
+        static async Task<string> MakeOCRRequest(string imageFilePath)
         {
             HttpClient client = new HttpClient();
 
@@ -87,9 +91,18 @@ namespace AzureSample
                 // Get the JSON response.
                 string contentString = await response.Content.ReadAsStringAsync();
 
-                // Display the JSON response.
-                //Console.WriteLine("\nResponse:\n");
-                //Console.WriteLine(JsonPrettyPrint(contentString));
+				var ocrResultString = JsonConvert.DeserializeObject<OcrResult>(contentString);
+
+				var sb = new StringBuilder();
+				foreach (var line in ocrResultString.regions[0].lines)
+				{
+					foreach (var word in line.words)
+					{
+						sb.Append(word.text);
+					}
+				}
+
+                return sb.ToString();
             }
         }
 
@@ -107,72 +120,6 @@ namespace AzureSample
         }
 
 
-        /// <summary>
-        /// Formats the given JSON string by adding line breaks and indents.
-        /// </summary>
-        /// <param name="json">The raw JSON string to format.</param>
-        /// <returns>The formatted JSON string.</returns>
-        static string JsonPrettyPrint(string json)
-        {
-            if (string.IsNullOrEmpty(json))
-                return string.Empty;
-
-            json = json.Replace(Environment.NewLine, "").Replace("\t", "");
-
-            StringBuilder sb = new StringBuilder();
-            bool quote = false;
-            bool ignore = false;
-            int offset = 0;
-            int indentLength = 3;
-
-            foreach (char ch in json)
-            {
-                switch (ch)
-                {
-                    case '"':
-                        if (!ignore) quote = !quote;
-                        break;
-                    case '\'':
-                        if (quote) ignore = !ignore;
-                        break;
-                }
-
-                if (quote)
-                    sb.Append(ch);
-                else
-                {
-                    switch (ch)
-                    {
-                        case '{':
-                        case '[':
-                            sb.Append(ch);
-                            sb.Append(Environment.NewLine);
-                            sb.Append(new string(' ', ++offset * indentLength));
-                            break;
-                        case '}':
-                        case ']':
-                            sb.Append(Environment.NewLine);
-                            sb.Append(new string(' ', --offset * indentLength));
-                            sb.Append(ch);
-                            break;
-                        case ',':
-                            sb.Append(ch);
-                            sb.Append(Environment.NewLine);
-                            sb.Append(new string(' ', offset * indentLength));
-                            break;
-                        case ':':
-                            sb.Append(ch);
-                            sb.Append(' ');
-                            break;
-                        default:
-                            if (ch != ' ') sb.Append(ch);
-                            break;
-                    }
-                }
-            }
-
-            return sb.ToString().Trim();
-        }
     }
 
     public class OcrResult

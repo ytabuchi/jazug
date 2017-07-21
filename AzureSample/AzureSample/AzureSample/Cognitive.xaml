@@ -4,9 +4,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="AzureSample.Cognitive"
     Title="Cognitive Services">
-    <StackLayout Padding="8">
+    <StackLayout Padding="8" Spacing="16">
         <Entry x:Name="uriText"
-            Text="http://blog.re-presentation.jp/wp-content/uploads/2016/01/WS001349-1024x576.jpg"/>
+            Text="https://pbs.twimg.com/media/DFPHsqsUQAADbvW.jpg"/>
         <Button Text="OCR image(url)"
             Clicked="OcrUriClicked"/>
         <Label x:Name="resJaLabel" Text="OCR result: "/>
