@@ -22,6 +22,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)TodoList.xaml.cs">
       <DependentUpon>TodoList.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)AuthenticationToken.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Translate.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Secrets.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Ocr.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)App.xaml">
